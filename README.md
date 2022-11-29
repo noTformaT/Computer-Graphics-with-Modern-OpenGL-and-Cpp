@@ -3,3 +3,4 @@ My OpenGL 3.x experiments
 * Uniform - Use Uniform variables in shaders
 * Translation - Move verticles with glm::translate
 * Rotation - Rotate verticles with glm::rotate
+* Scaling - Scale verticles with glm::scale
