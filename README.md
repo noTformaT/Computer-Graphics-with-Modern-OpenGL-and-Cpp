@@ -5,3 +5,4 @@ My OpenGL 3.x experiments
 * Rotation - Rotate verticles with glm::rotate
 * Scaling - Scale verticles with glm::scale
 * Interpolation - Interpolate values from vertex shader to fragment shader
+* IndexDraws - Indexed draws triangles from points

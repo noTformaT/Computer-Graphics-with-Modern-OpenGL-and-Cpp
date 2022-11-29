@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Scaling", "Scaling\Scaling.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Interpolation", "Interpolation\Interpolation.vcxproj", "{C003CBA5-99AC-4A07-94EB-20E6C04E3662}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IndexDraws", "IndexDraws\IndexDraws.vcxproj", "{65FC47E6-608F-4FEC-BF84-333CB8198051}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -71,6 +73,14 @@ Global
 		{C003CBA5-99AC-4A07-94EB-20E6C04E3662}.Release|x64.Build.0 = Release|x64
 		{C003CBA5-99AC-4A07-94EB-20E6C04E3662}.Release|x86.ActiveCfg = Release|Win32
 		{C003CBA5-99AC-4A07-94EB-20E6C04E3662}.Release|x86.Build.0 = Release|Win32
+		{65FC47E6-608F-4FEC-BF84-333CB8198051}.Debug|x64.ActiveCfg = Debug|x64
+		{65FC47E6-608F-4FEC-BF84-333CB8198051}.Debug|x64.Build.0 = Debug|x64
+		{65FC47E6-608F-4FEC-BF84-333CB8198051}.Debug|x86.ActiveCfg = Debug|Win32
+		{65FC47E6-608F-4FEC-BF84-333CB8198051}.Debug|x86.Build.0 = Debug|Win32
+		{65FC47E6-608F-4FEC-BF84-333CB8198051}.Release|x64.ActiveCfg = Release|x64
+		{65FC47E6-608F-4FEC-BF84-333CB8198051}.Release|x64.Build.0 = Release|x64
+		{65FC47E6-608F-4FEC-BF84-333CB8198051}.Release|x86.ActiveCfg = Release|Win32
+		{65FC47E6-608F-4FEC-BF84-333CB8198051}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
