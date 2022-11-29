@@ -20,11 +20,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\Mesh.cpp" />
+    <ClCompile Include="Source\Shader.cpp" />
+    <ClCompile Include="Source\Window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Mesh.h" />
+    <ClInclude Include="Source\Shader.h" />
+    <ClInclude Include="Source\Window.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{B14D5D79-3123-44A7-8388-CD7151F17C6E}</ProjectGuid>
+    <ProjectGuid>{90FB1A45-0060-4937-BB2F-2F4E8FFFA30C}</ProjectGuid>
     <RootNamespace>OpenGLCourceApp</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
