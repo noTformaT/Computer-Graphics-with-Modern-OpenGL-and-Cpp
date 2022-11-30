@@ -9,3 +9,4 @@ My OpenGL 3.x experiments
 * IndexDraws - Indexed draws triangles from points
 * Projection - Perspective projection for render
 * Transform - All transform operation (translate, rotation, scale) for meshes
+* CameraRender - Render verticles with camera view matrix
