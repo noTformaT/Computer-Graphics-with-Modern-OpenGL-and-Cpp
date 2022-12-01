@@ -10,3 +10,4 @@ My OpenGL 3.x experiments
 * Projection - Perspective projection for render
 * Transform - All transform operation (translate, rotation, scale) for meshes
 * CameraRender - Render verticles with camera view matrix
+* TextureMapping - UV mapping shaders for verticles
