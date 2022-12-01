@@ -10,7 +10,7 @@ public:
 	Texture(char* fileLcation);
 	~Texture();
 
-	void LoadTexture();
+	void LoadTexture(GLint format = GL_RGBA);
 	void UseTexture();
 	void ClearTexture();
 

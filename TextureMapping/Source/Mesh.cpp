@@ -33,13 +33,13 @@ void Mesh::CreateMesh(GLfloat* vertices, unsigned int* indices, unsigned int num
     glEnableVertexAttribArray(0);
 
     // UV data
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(vertices[0]) * 5, (void*)sizeof(vertices[0] * 3));
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(vertices[0]) * 5, (void*)(sizeof(vertices[0])*3));
     glEnableVertexAttribArray(1);
 
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    //glBindBuffer(GL_ARRAY_BUFFER, 0);
+    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-    glBindVertexArray(0);
+    //glBindVertexArray(0);
 }
 
 void Mesh::RenderMesh()

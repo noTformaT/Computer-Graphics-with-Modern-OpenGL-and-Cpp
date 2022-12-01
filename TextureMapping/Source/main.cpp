@@ -28,6 +28,7 @@ Camera mainCamera;
 
 Texture brickTexture;
 Texture dirtTexture;
+Texture capTexture;
 
 float currentAngle = 0.0f;
 float rotationIncrement = 90.0f;
@@ -42,30 +43,81 @@ GLfloat lastTime = .0f;
 void CreateObjects()
 {
     unsigned int indices[] = {
-        0, 3, 1,
-        1, 3, 2,
-        2, 3, 0,
-        0, 1, 2
+        0, 1, 2,
+        3, 4, 5,
+        6, 7, 8,
+        9,10, 11,
+        12,13,14,
+        15,16,17,
+        18,19,20,
+        21,22,23,
+        24,25,26,
+        27,28,29,
+        30,31,32,
+        33,34,35
     };
 
     GLfloat vertices[] = {
-    //    x       y     z      u      v
-        -0.86f, -0.7f, -.5f,  0.0f,   0.0f,
-        0.0f,   -0.7f, 1.0f,  0.5f,  0.0f,
-        0.86f,  -0.7f, -0.5f, 1.0f,  0.0f,
-        0.0f,   0.7f,   0.0f, 0.5f,  1.0f
+        //  x      y      z     u     v
+           -1.0f, -1.0f,  1.0f, 0.0f, 0.0f, 
+            1.0f, -1.0f,  1.0f, 1.0f, 0.0f,
+            1.0f,  1.0f,  1.0f, 1.0f, 1.0f,
+
+           -1.0f,-1.0f,  1.0f, 0.0f, 0.0f,
+            1.0f, 1.0f,  1.0f, 1.0f, 1.0f,
+           -1.0f, 1.0f,  1.0f, 0.0f, 1.0f,
+
+            1.0f,-1.0f,  1.0f, 0.0f, 0.0f,
+            1.0f,-1.0f, -1.0f, 1.0f, 0.0f,
+            1.0f, 1.0f, -1.0f, 1.0f, 1.0f,
+
+            1.0f,-1.0f,  1.0f, 0.0f, 0.0f,
+            1.0f, 1.0f, -1.0f, 1.0f, 1.0f,
+            1.0f, 1.0f,  1.0f, 0.0f, 1.0f,
+
+            1.0f,-1.0f, -1.0f, 0.0f, 0.0f,
+           -1.0f,-1.0f, -1.0f, 1.0f, 0.0f,
+           -1.0f, 1.0f, -1.0f, 1.0f, 1.0f,
+
+            1.0f,-1.0f, -1.0f, 0.0f, 0.0f,
+           -1.0f, 1.0f, -1.0f, 1.0f, 1.0f,
+            1.0f, 1.0f, -1.0f, 0.0f, 1.0f,
+
+           -1.0f,-1.0f, -1.0f, 0.0f, 0.0f,
+           -1.0f,-1.0f,  1.0f, 1.0f, 0.0f,
+           -1.0f, 1.0f,  1.0f, 1.0f, 1.0f,
+
+           -1.0f,-1.0f, -1.0f, 0.0f, 0.0f,
+           -1.0f, 1.0f,  1.0f, 1.0f, 1.0f,
+           -1.0f, 1.0f, -1.0f, 0.0f, 1.0f,
+
+           -1.0f, 1.0f,  1.0f, 0.0f, 0.0f,
+            1.0f, 1.0f,  1.0f, 1.0f, 0.0f,
+            1.0f, 1.0f, -1.0f, 1.0f, 1.0f,
+
+           -1.0f, 1.0f,  1.0f, 0.0f, 0.0f,
+            1.0f, 1.0f, -1.0f, 1.0f, 1.0f,
+           -1.0f, 1.0f, -1.0f, 0.0f, 1.0f,
+
+           -1.0f,-1.0f,  1.0f, 0.0f, 0.0f,
+            1.0f,-1.0f,  1.0f, 1.0f, 0.0f,
+            1.0f,-1.0f, -1.0f, 1.0f, 1.0f,
+
+           -1.0f,-1.0f,  1.0f, 0.0f, 0.0f,
+            1.0f,-1.0f, -1.0f, 1.0f, 1.0f,
+           -1.0f,-1.0f, -1.0f, 0.0f, 1.0f,
     };
 
     Mesh* mesh1 = new Mesh();
-    mesh1->CreateMesh(vertices, indices, 20, 12);
+    mesh1->CreateMesh(vertices, indices, 180, 36);
     meshList.push_back(mesh1);
 
     Mesh* mesh2 = new Mesh();
-    mesh2->CreateMesh(vertices, indices, 20, 12);
+    mesh2->CreateMesh(vertices, indices, 180, 36);
     meshList.push_back(mesh2);
 
     Mesh* mesh3 = new Mesh();
-    mesh3->CreateMesh(vertices, indices, 20, 12);
+    mesh3->CreateMesh(vertices, indices, 180, 36);
     meshList.push_back(mesh3);
 }
 
@@ -87,11 +139,14 @@ int main()
 
     mainCamera = Camera(glm::vec3(.0f, .0f, .0f), glm::vec3(.0f, 1.0f, .0f), -90.0f, 0.0f, 2.0f, 0.3f);
 
-    brickTexture = Texture((char*)"../Textures/brick.png");
-    brickTexture.LoadTexture();
+    brickTexture = Texture((char*)"../Textures/box.jpg");
+    brickTexture.LoadTexture(GL_RGB);
 
     dirtTexture = Texture((char*)"../Textures/dirt.png");
     dirtTexture.LoadTexture();
+
+    capTexture = Texture((char*)"../Textures/Cap.png");
+    capTexture.LoadTexture();
     
     // Calc projection
     glm::mat4 projection = glm::perspective(45.0f, mainWindow.GetBufferWidth() / mainWindow.GetBufferHeight(), 0.1f, 100.0f);
@@ -138,29 +193,33 @@ int main()
 
         glm::mat4 model(1.0f);
 
+        float scale = .3f;
+
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, -2.5f));
-        model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
-        //model = glm::rotate(model, currentAngle * toRadians, glm::vec3(.0f, 1.0f, .0f));
+        model = glm::rotate(model, currentAngle * toRadians, glm::vec3(.0f, 1.0f, .0f));
+        model = glm::scale(model, glm::vec3(scale, scale, scale));
+        
         glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
         glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
         glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(mainCamera.CalculateVewMatrix()));
-        brickTexture.UseTexture();
+        capTexture.UseTexture();
         meshList[0]->RenderMesh();
+
 
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(1.0f, 0.0f, -2.5f));
-        model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
-        //model = glm::rotate(model, -currentAngle * toRadians, glm::vec3(.0f, 1.0f, 1.0f));
+        model = glm::scale(model, glm::vec3(scale, scale, scale));
+        model = glm::rotate(model, -currentAngle * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
         glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
         dirtTexture.UseTexture();
         meshList[1]->RenderMesh();
 
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(-1.0f, 0.0f, -2.5f));
-        model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
-        //model = glm::rotate(model, -currentAngle * toRadians, glm::vec3(1.0f, 1.0f, .0f));
+        model = glm::scale(model, glm::vec3(scale, scale, scale));
+        model = glm::rotate(model, -currentAngle * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
         glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-        dirtTexture.UseTexture();
+        brickTexture.UseTexture();
         meshList[2]->RenderMesh();
 
         glUseProgram(0);
