@@ -12,3 +12,4 @@ My OpenGL 3.x experiments
 * CameraRender - Render verticles with camera view matrix
 * TextureMapping - UV mapping shaders for verticles
 * AmbientLight- Draws triangles with ambient light
+* DiffuseLighting - Draws triangles with diffuse light
