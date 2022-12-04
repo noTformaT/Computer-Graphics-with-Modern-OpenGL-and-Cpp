@@ -11,5 +11,6 @@ My OpenGL 3.x experiments
 * Transform - All transform operation (translate, rotation, scale) for meshes
 * CameraRender - Render verticles with camera view matrix
 * TextureMapping - UV mapping shaders for verticles
-* AmbientLight- Draws triangles with ambient light
-* DiffuseLighting - Draws triangles with diffuse light
+* AmbientLight- Draws triangles with ambient lighting
+* DiffuseLighting - Draws triangles with diffuse lighting
+* SpecularLighting - Draws triangles with specular lighting
