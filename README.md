@@ -14,3 +14,4 @@ My OpenGL 3.x experiments
 * AmbientLight- Draws triangles with ambient lighting
 * DiffuseLighting - Draws triangles with diffuse lighting
 * SpecularLighting - Draws triangles with specular lighting
+* PointLight - Point and directional light shading the triangles
