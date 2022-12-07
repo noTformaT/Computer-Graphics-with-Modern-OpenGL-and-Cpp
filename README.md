@@ -16,3 +16,4 @@ My OpenGL 3.x experiments
 * SpecularLighting - Draws triangles with specular lighting
 * PointLight - Point and directional light source
 * SpotLight - Spot, point and directional light source
+* ModelImport - Simple model importer
