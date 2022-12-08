@@ -17,3 +17,4 @@ My OpenGL 3.x experiments
 * PointLight - Point and directional light source
 * SpotLight - Spot, point and directional light source
 * ModelImport - Simple model importer
+* DirectionalShadowMap - Shadows with directional light
