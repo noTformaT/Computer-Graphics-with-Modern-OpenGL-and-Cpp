@@ -51,7 +51,7 @@ std::vector<glm::mat4> PointLight::CalculateLightTransform()
 
 	//+y, -y
 	lightMatrices.push_back(lightProj * glm::lookAt(position, position + glm::vec3(0.0f, 1.0, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f)));
-	lightMatrices.push_back(lightProj * glm::lookAt(position, position + glm::vec3(0.0f,-0.0, 0.0f), glm::vec3(0.0f, 0.0f,-1.0f)));
+	lightMatrices.push_back(lightProj * glm::lookAt(position, position + glm::vec3(0.0f,-1.0, 0.0f), glm::vec3(0.0f, 0.0f,-1.0f)));
 
 	//+z, -z
 	lightMatrices.push_back(lightProj * glm::lookAt(position, position + glm::vec3(0.0f, 0.0, 1.0f), glm::vec3(0.0f,-1.0f, 0.0f)));

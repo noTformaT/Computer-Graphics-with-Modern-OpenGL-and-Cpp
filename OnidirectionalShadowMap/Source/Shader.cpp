@@ -120,7 +120,7 @@ void Shader::SetDirectionalLight(DirectionalLight* dLight)
     dLight->UseLight(uniformDirectionalLight.uniformAmbientIntensity, uniformDirectionalLight.uniformColor, uniformDirectionalLight.uniformDiffuseIntensity, uniformDirectionalLight.uniformDirection);
 }
 
-void Shader::SetPointLights(PointLight* pLight, unsigned int lightCount)
+void Shader::SetPointLights(PointLight* pLight, unsigned int lightCount, unsigned int textureUnit, unsigned int offset)
 {
     if (lightCount > MAX_POINT_LIGHTS)
     {
@@ -131,11 +131,15 @@ void Shader::SetPointLights(PointLight* pLight, unsigned int lightCount)
 
     for (size_t i = 0; i < lightCount; i++)
     {
-        pLight[i].UseLight(uniformPointLight[i].uniformAmbientIntensity, uniformPointLight[i].uniformColor, uniformPointLight[i].uniformDiffuseIntensity, uniformPointLight[i].uniformPosition, uniformPointLight[i].uniformConstant, uniformPointLight[i].uniformLinear, uniformPointLight[i].uniformExponent) ;
+        pLight[i].UseLight(uniformPointLight[i].uniformAmbientIntensity, uniformPointLight[i].uniformColor, uniformPointLight[i].uniformDiffuseIntensity, uniformPointLight[i].uniformPosition, uniformPointLight[i].uniformConstant, uniformPointLight[i].uniformLinear, uniformPointLight[i].uniformExponent);
+
+        pLight[i].GetShadowMap()->Read(GL_TEXTURE0 + textureUnit + i);
+        glUniform1i(uniformShadowMap[i + offset].shadowMap, textureUnit + i);
+        glUniform1f(uniformShadowMap[i + offset].farPlane, pLight[i].GetFarPlane());
     }
 }
 
-void Shader::SetSpotLights(SpotLight* sLight, unsigned int lightCount)
+void Shader::SetSpotLights(SpotLight* sLight, unsigned int lightCount, unsigned int textureUnit, unsigned int offset)
 {
     if (lightCount > MAX_SPOT_LIGHTS)
     {
@@ -149,6 +153,10 @@ void Shader::SetSpotLights(SpotLight* sLight, unsigned int lightCount)
         sLight[i].UseLight(uniformSpotLight[i].uniformAmbientIntensity, uniformSpotLight[i].uniformColor,
             uniformSpotLight[i].uniformDiffuseIntensity, uniformSpotLight[i].uniformPosition, uniformSpotLight[i].uniformDirection,
             uniformSpotLight[i].uniformConstant, uniformSpotLight[i].uniformLinear, uniformSpotLight[i].uniformExponent, uniformSpotLight[i].uniformEdge);
+
+        sLight[i].GetShadowMap()->Read(GL_TEXTURE0 + textureUnit + i);
+        glUniform1i(uniformShadowMap[i + offset].shadowMap, textureUnit + i);
+        glUniform1f(uniformShadowMap[i + offset].farPlane, sLight[i].GetFarPlane());
     }
 }
 
@@ -248,16 +256,6 @@ void Shader::CompileProgram()
         return;
     }
 
-    // validation programm
-    glValidateProgram(shaderID);
-    glGetProgramiv(shaderID, GL_VALIDATE_STATUS, &result);
-    if (!result)
-    {
-        glGetProgramInfoLog(shaderID, sizeof(errorLog), nullptr, errorLog);
-        printf("Error validation program: %s\n", errorLog);
-        return;
-    }
-
     uniformModel = glGetUniformLocation(shaderID, "model");
     uniformProjection = glGetUniformLocation(shaderID, "projection");
     uniformView = glGetUniformLocation(shaderID, "view");
@@ -344,6 +342,38 @@ void Shader::CompileProgram()
 
         snprintf(locBuff, sizeof(locBuff), "lightMatrices[%d]", i);
         uniformaLightMatrices[i] = glGetUniformLocation(shaderID, locBuff);
+    }
+
+    for (size_t i = 0; i < MAX_POINT_LIGHTS + MAX_SPOT_LIGHTS; i++)
+    {
+        char locBuff[100] = { '\0' };
+
+        snprintf(locBuff, sizeof(locBuff), "omniShadowMaps[%d].shadowMap", i);
+        uniformShadowMap[i].shadowMap = glGetUniformLocation(shaderID, locBuff);
+
+        snprintf(locBuff, sizeof(locBuff), "omniShadowMaps[%d].shadowMap", i);
+        uniformShadowMap[i].shadowMap = glGetUniformLocation(shaderID, locBuff);
+
+        snprintf(locBuff, sizeof(locBuff), "omniShadowMaps[%d].farPlane", i);
+        uniformShadowMap[i].farPlane = glGetUniformLocation(shaderID, locBuff);
+    }
+
+    int a = 10;
+}
+
+void Shader::Validate()
+{
+    GLint result = 0;
+    GLchar errorLog[128] = { 0 };
+
+    // validation programm
+    glValidateProgram(shaderID);
+    glGetProgramiv(shaderID, GL_VALIDATE_STATUS, &result);
+    if (!result)
+    {
+        glGetProgramInfoLog(shaderID, sizeof(errorLog), nullptr, errorLog);
+        printf("Error validation program: %s\n", errorLog);
+        return;
     }
 }
 

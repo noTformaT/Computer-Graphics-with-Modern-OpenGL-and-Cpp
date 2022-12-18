@@ -56,8 +56,8 @@ float currentAngle = 0.0f;
 float rotationIncrement = 90.0f;
 
 // Shaders file
-static const char* vShader = "../Shaders/vert_DirectionalShadow.glsl";
-static const char* fShader = "../Shaders/frag_DirectionalShadow.glsl";
+static const char* vShader = "../Shaders/vert_OmniDirectionalShadow.glsl";
+static const char* fShader = "../Shaders/frag_OmniDirectionalShadow.glsl";
 
 GLfloat deltaTime = .0f;
 GLfloat lastTime = .0f;
@@ -281,7 +281,7 @@ void RenderScene()
 
     float scale = .3f;
 
-    model = glm::translate(model, glm::vec3(0.0f, 0.0f, -2.5f));
+    model = glm::translate(model, glm::vec3(0.0f, -1.5f, -2.5f));
     model = glm::rotate(model, currentAngle * toRadians, glm::vec3(.0f, 1.0f, .0f));
     model = glm::scale(model, glm::vec3(scale, scale, scale));
     glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -291,7 +291,7 @@ void RenderScene()
 
 
     model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(1.0f, 0.0f, -2.5f));
+    model = glm::translate(model, glm::vec3(1.0f, -1.5f, -2.5f));
     model = glm::scale(model, glm::vec3(scale, scale, scale));
     model = glm::rotate(model, -currentAngle * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
     glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -300,7 +300,7 @@ void RenderScene()
     meshList[1]->RenderMesh();
 
     model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(-1.0f, 0.0f, -2.5f));
+    model = glm::translate(model, glm::vec3(-1.0f, -1.5f, -2.5f));
     model = glm::scale(model, glm::vec3(scale, scale, scale));
     model = glm::rotate(model, -currentAngle * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
     glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -332,6 +332,8 @@ void DirectionalShadowMapPass(DirectionalLight* light)
     glm::mat4 lightTransform = light->CalculateLightTransform();
     directionalShadowShader.SetDirectionalLightTransform(&lightTransform);
 
+    directionalShadowShader.Validate();
+
     RenderScene();
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -357,6 +359,8 @@ void OmniShadowMapPass(PointLight* light)
 
     omniShadowShader.SetOmniLightMatrices(light->CalculateLightTransform());
 
+    omniShadowShader.Validate();
+
     RenderScene();
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -376,21 +380,22 @@ void RenderPass(glm::mat4 projectionMatrix, glm::mat4 viewMatrix)
     glViewport(0, 0, WIDTH, HEIGHT);
 
     GLfloat bgColor = mainLight.GetAmbientIntensity();
+   // bgColor = 0.4f;
     glClearColor(bgColor, bgColor, bgColor, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     
 
     shaderList[0].SetDirectionalLight(&mainLight);
-    shaderList[0].SetPointLights(pointLights, pointLightCount);
-    shaderList[0].SetSpotLights(spotLights, spotLightCount);
+    shaderList[0].SetPointLights(pointLights, pointLightCount, 3, 0);
+    shaderList[0].SetSpotLights(spotLights, spotLightCount, 3 + pointLightCount, pointLightCount);
 
     glm::mat4 lightTransform = mainLight.CalculateLightTransform();
     shaderList[0].SetDirectionalLightTransform(&lightTransform);
 
-    mainLight.GetShadowMap()->Read(GL_TEXTURE1);
-    shaderList[0].SetTexture(0);
-    shaderList[0].SetDirectionalShadowMap(1);
+    mainLight.GetShadowMap()->Read(GL_TEXTURE2);
+    shaderList[0].SetTexture(1);
+    shaderList[0].SetDirectionalShadowMap(2);
 
     //mainLight.UseLight(uniformAmbientIntensity, uniformAmbientColor, uniformDiffuseIntensity, uniformDirection);
 
@@ -438,23 +443,23 @@ int main()
 
     mainLight = DirectionalLight(2048, 2048,
                                  1.0f, 1.0f, 1.0f, 
-                                 0.0f, 0.1f,
+                                 0.0f, 0.00f,
                                  0.0f, -15.0f, -10.0f);
 
     
     
     pointLights[0] = PointLight(
-        1024, 1024,
+        2048, 2048,
         0.01f, 100.0f,
         0.0f, 0.0f, 1.0f,
         0.1f, 1.0f,
         4.0f, 0.0f, 0.0f,
-        0.3f, 0.2f, 0.1f
+        0.3f, 0.1f, 0.1f
     );
     pointLightCount++;
 
     pointLights[1] = PointLight(
-        1024, 1024, 
+        2048, 2048,
         0.01f, 100.0f,
         0.0f, 1.0f, 0.0f,
         0.1f, 1.0f,
@@ -466,7 +471,7 @@ int main()
     
       
     spotLights[0] = SpotLight(
-        1024, 1024, 
+        2048, 2048,
         0.01f, 100.0f,
         1.0f, 1.0f, 1.0f,
         0.0f, 1.0f,
@@ -477,7 +482,7 @@ int main()
     spotLightCount++;
 
     spotLights[1] = SpotLight(
-        1024, 1024, 
+        2048, 2048,
         0.01f, 100.0f,
         1.0f, 0.5f, 0.0f,
         0.0f, 2.0f,
@@ -488,11 +493,11 @@ int main()
     spotLightCount++;
 
     spotLights[2] = SpotLight(
-        1024, 1024, 
+        2048, 2048,
         0.01f, 100.0f,
         1.0f, 0.0f, 1.0f,
         0.0f, 2.0f,
-        0.0f, -0.0f, 3.0f,
+        0.0f, 1.0f, -2.5f,
         0.0f, -1.0f, 0.0f,
         0.1f, 0.2f, 0.1f,
         20.0f);
@@ -550,8 +555,6 @@ int main()
         }
 
         RenderPass(projection, mainCamera.CalculateVewMatrix());
-        
-        
 
         glUseProgram(0);
 
