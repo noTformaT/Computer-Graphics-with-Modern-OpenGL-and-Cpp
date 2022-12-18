@@ -32,6 +32,8 @@ GLuint uniformView = 0;
 GLuint uniformEyePosition = 0;
 GLuint uniformSpecularIntensity = 0;
 GLuint uniformShininess = 0;
+GLuint uniformOmniLightPosition = 0;
+GLuint uniformFarPlane = 0;
 
 Material shinyMaterial = Material(4.0f, 256);
 Material dullMaterial = Material(0.00f, 4);
@@ -40,6 +42,7 @@ std::vector<Mesh*> meshList;
 std::vector<Shader> shaderList;
 
 Shader directionalShadowShader;
+Shader omniShadowShader;
 
 Window mainWindow;
 Camera mainCamera;
@@ -269,6 +272,7 @@ void CreateShaders()
     shaderList.push_back(*shader1);
 
     directionalShadowShader.CreateFromFile("../Shaders/vert_Directional_ShadowMap.glsl", "../Shaders/frag_Directional_ShadowMap.glsl");
+    omniShadowShader.CreateFromFile("../Shaders/vert_OmniShadowMap.glsl", "../Shaders/geom_OmniShadowMap.glsl", "../Shaders/frag_OmniShadowMap.glsl");
 }
 
 void RenderScene()
@@ -327,6 +331,31 @@ void DirectionalShadowMapPass(DirectionalLight* light)
     uniformModel = directionalShadowShader.GetModelLocation();
     glm::mat4 lightTransform = light->CalculateLightTransform();
     directionalShadowShader.SetDirectionalLightTransform(&lightTransform);
+
+    RenderScene();
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void OmniShadowMapPass(PointLight* light)
+{
+    omniShadowShader.UseShader();
+
+    if (light->GetShadowMap())
+    {
+        glViewport(0, 0, light->GetShadowMap()->GetShadowWidth(), light->GetShadowMap()->GetShadowHeight());
+        light->GetShadowMap()->Write();
+        glClear(GL_DEPTH_BUFFER_BIT);
+    }
+
+    uniformModel = omniShadowShader.GetModelLocation();
+    uniformOmniLightPosition = omniShadowShader.GetOmniLightPositionLocation();
+    uniformFarPlane = omniShadowShader.GetFarPlaneLocation();
+
+    glUniform3f(uniformOmniLightPosition, light->GetLocation().x, light->GetLocation().y, light->GetLocation().z);
+    glUniform1f(uniformFarPlane, light->GetFarPlane());
+
+    omniShadowShader.SetOmniLightMatrices(light->CalculateLightTransform());
 
     RenderScene();
 
@@ -414,21 +443,32 @@ int main()
 
     
     
-    pointLights[0] = PointLight(0.0f, 0.0f, 1.0f, 
-                                0.1f, 1.0f, 
-                                4.0f, 0.0f, 0.0f,
-                                0.3f, 0.2f, 0.1f);
+    pointLights[0] = PointLight(
+        1024, 1024,
+        0.01f, 100.0f,
+        0.0f, 0.0f, 1.0f,
+        0.1f, 1.0f,
+        4.0f, 0.0f, 0.0f,
+        0.3f, 0.2f, 0.1f
+    );
     pointLightCount++;
 
-    pointLights[1] = PointLight(0.0f, 1.0f, 0.0f,
-                                0.1f, 1.0f,
-                                -4.0f, 0.0f, 0.0f,
-                                0.3f, 0.1f, 0.1f);
+    pointLights[1] = PointLight(
+        1024, 1024, 
+        0.01f, 100.0f,
+        0.0f, 1.0f, 0.0f,
+        0.1f, 1.0f,
+        -4.0f, 0.0f, 0.0f,
+        0.3f, 0.1f, 0.1f
+    );
     pointLightCount++;
 
     
       
-    spotLights[0] = SpotLight(1.0f, 1.0f, 1.0f,
+    spotLights[0] = SpotLight(
+        1024, 1024, 
+        0.01f, 100.0f,
+        1.0f, 1.0f, 1.0f,
         0.0f, 1.0f,
         0.0f, 1.0f, 0.0f,
         -1.0f, -0.7f, 0.0f,
@@ -436,7 +476,10 @@ int main()
         20.0f);
     spotLightCount++;
 
-    spotLights[1] = SpotLight(1.0f, 0.5f, 0.0f,
+    spotLights[1] = SpotLight(
+        1024, 1024, 
+        0.01f, 100.0f,
+        1.0f, 0.5f, 0.0f,
         0.0f, 2.0f,
         0.0f, -1.5f, 0.0f,
         0.0f, -1.0f, -5.0f,
@@ -444,7 +487,10 @@ int main()
         20.0f);
     spotLightCount++;
 
-    spotLights[2] = SpotLight(1.0f, 0.0f, 1.0f,
+    spotLights[2] = SpotLight(
+        1024, 1024, 
+        0.01f, 100.0f,
+        1.0f, 0.0f, 1.0f,
         0.0f, 2.0f,
         0.0f, -0.0f, 3.0f,
         0.0f, -1.0f, 0.0f,
@@ -492,6 +538,17 @@ int main()
         // Clear the window
 
         DirectionalShadowMapPass(&mainLight);
+
+        for (size_t i = 0; i < pointLightCount; i++)
+        {
+            OmniShadowMapPass(&pointLights[i]);
+        }
+
+        for (size_t i = 0; i < spotLightCount; i++)
+        {
+            OmniShadowMapPass(&spotLights[i]);
+        }
+
         RenderPass(projection, mainCamera.CalculateVewMatrix());
         
         

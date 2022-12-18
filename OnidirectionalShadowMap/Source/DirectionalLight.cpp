@@ -7,7 +7,7 @@ DirectionalLight::DirectionalLight() : Light()
 }
 
 DirectionalLight::DirectionalLight(
-	GLfloat shadowWidth, GLfloat shadowHeight,
+	GLuint shadowWidth, GLuint shadowHeight,
 	GLfloat red, GLfloat green, GLfloat blue,
 	GLfloat intensity, GLfloat dIntencity,
 	GLfloat xDir, GLfloat yDir, GLfloat zDir) : Light(shadowWidth, shadowHeight, red, green, blue, intensity, dIntencity)

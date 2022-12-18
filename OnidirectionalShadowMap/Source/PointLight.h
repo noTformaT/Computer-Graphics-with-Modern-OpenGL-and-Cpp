@@ -1,12 +1,17 @@
 #pragma once
 
 #include "Light.h"
+#include "OmniShadowMap.h"
+#include <vector>
 
 class PointLight : public Light
 {
 public:
 	PointLight();
-	PointLight(GLfloat red, GLfloat green, GLfloat blue,
+	PointLight(
+		GLuint shadowWidth, GLuint shadowHeight,
+		GLfloat near, GLfloat far,
+		GLfloat red, GLfloat green, GLfloat blue,
 		GLfloat intensity, GLfloat dIntencity,
 		GLfloat xPos, GLfloat yPos, GLfloat zPos,
 		GLfloat con, GLfloat lin, GLfloat exp);
@@ -14,6 +19,9 @@ public:
 	void UseLight(GLuint ambientIntensityLocation, GLuint ambientColourLocation,
 		GLuint dIntensityLocation, GLuint positionLocation,
 		GLuint constantLocation, GLuint linearLocation, GLuint exponentlLocation);
+
+	std::vector<glm::mat4> CalculateLightTransform();
+	GLfloat GetFarPlane();
 
 	void SetPosition(glm::vec3 newLocation);
 	glm::vec3 GetLocation();
@@ -25,4 +33,5 @@ protected:
 	GLfloat constant;
 	GLfloat linear;
 	GLfloat exponent;
+	GLfloat farPlane;
 };

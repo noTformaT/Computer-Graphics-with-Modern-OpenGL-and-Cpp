@@ -9,7 +9,7 @@ class Light
 {
 public:
 	Light();
-	Light(GLfloat shadowWidth, GLfloat shadowHeight,
+	Light(GLuint shadowWidth, GLuint shadowHeight,
 		  GLfloat red, GLfloat green, GLfloat blue, GLfloat intensity,
 		  GLfloat dIntencity);
 
@@ -28,7 +28,7 @@ protected:
 
 	ShadowMap* shadowMap = nullptr;
 
-	glm::mat4 lightProj;
+	glm::mat4 lightProj = glm::ortho(-20.0f, 20.0f, -20.0f, 20.0f, 0.1f, 100.0f);
 
 	void AddIntensity(GLfloat add);
 };

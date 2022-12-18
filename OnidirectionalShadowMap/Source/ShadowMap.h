@@ -1,6 +1,7 @@
 #pragma once
 
 #include <GL/glew.h>
+#include <stdio.h>
 
 class ShadowMap
 {
@@ -17,7 +18,7 @@ public:
 	GLuint GetShadowWidth();
 	GLuint GetShadowHeight();
 
-private:
+protected:
 	GLuint FBO;
 	GLuint shadowMap;
 	GLuint shadowWidth;

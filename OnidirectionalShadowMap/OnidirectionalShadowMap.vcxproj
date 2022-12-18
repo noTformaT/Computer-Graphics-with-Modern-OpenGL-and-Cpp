@@ -26,6 +26,7 @@
     <ClCompile Include="Source\Material.cpp" />
     <ClCompile Include="Source\Mesh.cpp" />
     <ClCompile Include="Source\Model.cpp" />
+    <ClCompile Include="Source\OmniShadowMap.cpp" />
     <ClCompile Include="Source\PointLight.cpp" />
     <ClCompile Include="Source\Shader.cpp" />
     <ClCompile Include="Source\ShadowMap.cpp" />
@@ -41,6 +42,7 @@
     <ClInclude Include="Source\Material.h" />
     <ClInclude Include="Source\Mesh.h" />
     <ClInclude Include="Source\Model.h" />
+    <ClInclude Include="Source\OmniShadowMap.h" />
     <ClInclude Include="Source\PointLight.h" />
     <ClInclude Include="Source\Shader.h" />
     <ClInclude Include="Source\ShadowMap.h" />
@@ -52,7 +54,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{782FA757-0890-4443-A0E0-3AB3BBB823F1}</ProjectGuid>
+    <ProjectGuid>{737B860D-25D0-4FE4-B0AC-2EEDFE9C2AF9}</ProjectGuid>
     <RootNamespace>OpenGLCourceApp</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>

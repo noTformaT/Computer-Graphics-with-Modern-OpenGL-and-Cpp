@@ -57,6 +57,9 @@
     <ClCompile Include="Source\ShadowMap.cpp">
       <Filter>Source\Private</Filter>
     </ClCompile>
+    <ClCompile Include="Source\OmniShadowMap.cpp">
+      <Filter>Source\Private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Mesh.h">
@@ -99,6 +102,9 @@
       <Filter>Source\Public</Filter>
     </ClInclude>
     <ClInclude Include="Source\ShadowMap.h">
+      <Filter>Source\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OmniShadowMap.h">
       <Filter>Source\Public</Filter>
     </ClInclude>
   </ItemGroup>

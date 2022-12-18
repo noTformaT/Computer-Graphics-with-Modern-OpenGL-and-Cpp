@@ -1,7 +1,5 @@
 #include "ShadowMap.h"
 
-#include <stdio.h>
-
 ShadowMap::ShadowMap()
 {
 	FBO = 0;
