@@ -41,6 +41,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectionalShadowMap", "Dir
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OnidirectionalShadowMap", "OnidirectionalShadowMap\OnidirectionalShadowMap.vcxproj", "{737B860D-25D0-4FE4-B0AC-2EEDFE9C2AF9}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkyBox", "SkyBox\SkyBox.vcxproj", "{50FDE1DE-5442-4390-B654-AD5FA67C0F56}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -201,6 +203,14 @@ Global
 		{737B860D-25D0-4FE4-B0AC-2EEDFE9C2AF9}.Release|x64.Build.0 = Release|x64
 		{737B860D-25D0-4FE4-B0AC-2EEDFE9C2AF9}.Release|x86.ActiveCfg = Release|Win32
 		{737B860D-25D0-4FE4-B0AC-2EEDFE9C2AF9}.Release|x86.Build.0 = Release|Win32
+		{50FDE1DE-5442-4390-B654-AD5FA67C0F56}.Debug|x64.ActiveCfg = Debug|x64
+		{50FDE1DE-5442-4390-B654-AD5FA67C0F56}.Debug|x64.Build.0 = Debug|x64
+		{50FDE1DE-5442-4390-B654-AD5FA67C0F56}.Debug|x86.ActiveCfg = Debug|Win32
+		{50FDE1DE-5442-4390-B654-AD5FA67C0F56}.Debug|x86.Build.0 = Debug|Win32
+		{50FDE1DE-5442-4390-B654-AD5FA67C0F56}.Release|x64.ActiveCfg = Release|x64
+		{50FDE1DE-5442-4390-B654-AD5FA67C0F56}.Release|x64.Build.0 = Release|x64
+		{50FDE1DE-5442-4390-B654-AD5FA67C0F56}.Release|x86.ActiveCfg = Release|Win32
+		{50FDE1DE-5442-4390-B654-AD5FA67C0F56}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

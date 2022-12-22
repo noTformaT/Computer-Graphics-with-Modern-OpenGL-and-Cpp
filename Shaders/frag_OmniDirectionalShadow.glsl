@@ -245,5 +245,5 @@ void main()
     finalColor += CalcPointLights();
     finalColor += CalcSpotLights();
 
-    color = texture(theTexture, fix) * finalColor;
+    color = /*texture(theTexture, fix) **/ finalColor;
 }
